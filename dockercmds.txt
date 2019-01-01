@@ -44,3 +44,11 @@ docker image prune
 
 --- Building Image on every commit ---
 docker image ls
+
+docker image ls my-registry:55000/gen
+
+PS C:\VS_2017_Projects\aspnetcore-generator-api> docker image ls my-registry:55000/gen
+REPOSITORY              TAG                 IMAGE ID            CREATED              SIZE
+my-registry:55000/gen   ci-3                d862869ac1e6        About a minute ago   355MB
+
+

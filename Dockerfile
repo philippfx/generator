@@ -8,7 +8,7 @@ COPY api/api.csproj ./api/
 RUN dotnet restore api/api.csproj
 COPY tests/tests.csproj ./tests/
 RUN dotnet restore tests/tests.csproj
-#be be cached:
+#to be cached:
 #RUN dir -s
 
 # copy src
