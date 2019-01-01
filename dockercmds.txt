@@ -1,0 +1,46 @@
+Creating Pipeline infrastracture
+
+cd C:\VS_2017_Projects\aspnetcore-generator-api
+
+REGISTRY: 
+http://localhost:55000/v2/_catalog
+http://my-registry:55000/v2/_catalog
+
+docker tag aspnetcore/generator:multi my-registry:55000/aspnetcore/generator:multi (tags image, but is not pushed to registry yet)
+docker push my-registry:55000/aspnetcore/generator:multi
+
+http://my-registry:55000/v2/aspnetcore/generator/tags/list
+
+TEAMCITY:
+
+cd C:\VS_2017_Projects\aspnetcore-generator-api\api\infra\teamcity
+docker-compose up -d
+
+http://localfittifyapi:8111/
+
+SQL SERVER SETUP:
+put mssql-jdbc-6.2.2.jre8.jar into C:\VS_2017_Projects\aspnetcore-generator-api\api\infra\teamcity
+docker cp mssql-jdbc-6.2.2.jre8.jar b99c1a82ea54:/data/teamcity_server/datadir/lib/jdbc (copies into container)
+
+be sure to set SQL TCP Port (https://stackoverflow.com/questions/18841744/jdbc-connection-failed-error-tcp-ip-connection-to-host-failed/24299346)
+and allow port 1433 in firewall
+
+
+
+--- Creating a CI Dockerfile with Unit Test ---
+Create Dockerfile in C:\VS_2017_Projects\aspnetcore-generator-api
+
+docker build -t testing .
+docker run --rm -it -p 8080:80 testing
+
+Hosting environment: Production
+Content root path: /publish
+Now listening on: http://[::]:80
+Application started. Press Ctrl+C to shut down.
+
+http://localhost:8080/
+
+docker image prune
+
+--- Building Image on every commit ---
+docker image ls
