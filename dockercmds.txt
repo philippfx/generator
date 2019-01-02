@@ -85,3 +85,11 @@ powershell window 2: docker-compose -p p2 up --force-recreate
 docker-compose up --force-recreate --abort-on-container-exit --build
 
 --- Orchestrating Integration Testing on Every Commit ---
+cd C:\VS_2017_Projects\aspnetcore-generator-api\api\infra\teamcity
+docker-compose build
+docker-compose up -d
+
+cd  C:\VS_2017_Projects\aspnetcore-generator-api\integration
+cat .\docker-compose.yml
+docker-compose config
+
