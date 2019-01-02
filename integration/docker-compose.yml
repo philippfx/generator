@@ -10,7 +10,7 @@ services:
     #ports:
     #  - "8025:8025"
   integration:
-    image: my-registry:55000/gen:integration-${BUILD_NUMBER-6}
+    image: my-registry:55000/gen:integration-${BUILD_NUMBER-3}
     build: .
     environment:
       TEAMCITY_PROJECT_NAME: ${TEAMCITY_PROJECT_NAME}
