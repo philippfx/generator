@@ -93,3 +93,49 @@ cd  C:\VS_2017_Projects\aspnetcore-generator-api\integration
 cat .\docker-compose.yml
 docker-compose config
 
+--- Demo Deploy on every commit ---
+docker swarm init
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-5syf5tqrdudcycpjd0726kr1zpx2ifodfw27mbk7237gj3lfpa-8a37i0j2eaysqucvlk2om41go 192.168.65.3:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+:::::::: DOES NOT WORK ::::::::
+PS C:\VS_2017_Projects\aspnetcore-generator-api\api\infra\swarm> docker stack deploy -c services/viz.yml projnameViz
+Creating network projnameViz_default
+Creating service projnameViz_viz
+
+PS C:\VS_2017_Projects\aspnetcore-generator-api\api\infra\swarm> docker node ls
+ID                            HOSTNAME                STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+sf8bapsjr8t1bxdcgvn4te2dz *   linuxkit-00155db22e0b   Ready               Active              Leader              18.09.0
+
+PS C:\VS_2017_Projects\aspnetcore-generator-api\api\infra\swarm> docker node inspect --format '{{.Status.Addr}}' sf8bapsjr8t1bxdcgvn4te2dz
+192.168.65.3
+
+:::::::: WORKAROUND ::::::::
+
+docker run -it -d -p 8095:8080 -v /var/run/docker.sock:/var/run/docker.sock dockersamples/visualizer
+http://localhost:8095
+
+PS C:\VS_2017_Projects\aspnetcore-generator-api\api\infra\swarm> docker ps
+CONTAINER ID        IMAGE                                             COMMAND                  CREATED             STATUS                             PORTS                     NAMES
+45fb8e846a5f        dockersamples/visualizer                          "npm start"              27 seconds ago      Up 26 seconds (health: starting)   0.0.0.0:8095->8080/tcp    romantic_torvalds
+1db65a6310e2        aspnetcore/teamcity-agent-with-compose:2017.1.2   "/run-services.sh"       6 hours ago         Up 6 hours                         9090/tcp                  teamcity_teamcity-agent_1
+887dc8d71623        jetbrains/teamcity-server:2017.1.2                "/run-services.sh"       29 hours ago        Up 29 hours                        0.0.0.0:8111->8111/tcp    teamcity_teamcity_1
+7442e2f7ae10        registry:2.6.1                                    "/entrypoint.sh /etc…"   10 days ago         Up 29 hours                        0.0.0.0:55000->5000/tcp   registry_my-registry_1
+
+::::::::::::::::::::::::::::::::
+
+docker stack deploy -c .\demo.yml projNameDemo (similar to docker-compose)
+docker stack ls
+
+http://localhost:8095/ should show all demos
+http://localhost:8080/ for api
+http://localhost:8081/ for mailhog
+
+
+
+
+
