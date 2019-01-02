@@ -4,7 +4,7 @@ services:
   generator:
     image: my-registry:55000/gen:ci-${GENERATOR_BUILD_NUMBER-6}
     #ports: OR PORT CONFLICTS MAY RISE WHEN MULTIPLE TESTS ARE RUN IN PARALLEL 
-    #  - "8080:80" 
+    #  - "8080:80"  
   mail:
     image: mailhog/mailhog
     #ports:
