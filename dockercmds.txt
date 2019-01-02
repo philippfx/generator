@@ -52,3 +52,36 @@ REPOSITORY              TAG                 IMAGE ID            CREATED         
 my-registry:55000/gen   ci-3                d862869ac1e6        About a minute ago   355MB
 
 
+--- Using docker-compose for sophisticated integration testing ---
+
+cd C:\VS_2017_Projects\aspnetcore-generator-api
+mkdir integration
+cd integration
+dotnet new xunit
+dotnet add package FluentAssertions.Json (BETTER YOU ADD IT VIA VS2017 version 4.19.0)
+cp ..\api\docker-compose.yml .
+
+docker-compose up -d
+
+MAILHOG
+http://localhost:8080/swagger/
+http://localhost:8025/
+http://localhost:8025/api/v2/messages
+
+(Create Dockerfile in integration folder)
+docker build -t my-registry:55000/gen:integration-6 .
+docker run --rm -it my-registry:55000/gen:integration-6
+
+cd C:\VS_2017_Projects\aspnetcore-generator-api\integration
+(adjust docker-compose.yml)
+docker-compose up
+docker-compose up (twice is important, because the mailhog container for manual testing may be still runnning) 
+
+docker-compose up --force-recreate --abort-on-container-exit
+
+powershell window 1: docker-compose -p p1 up --force-recreate
+powershell window 2: docker-compose -p p2 up --force-recreate
+
+docker-compose up --force-recreate --abort-on-container-exit --build
+
+--- Orchestrating Integration Testing on Every Commit ---
