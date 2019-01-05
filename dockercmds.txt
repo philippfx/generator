@@ -135,7 +135,9 @@ http://localhost:8095/ should show all demos
 http://localhost:8080/ for api
 http://localhost:8081/ for mailhog
 
+docker stack ls
+docker stack remove projNameDemo
 
+--- Addubg On-demand Testing Environments to the Pipeline ---
 
-
-
+docker-compose -f .\demo.yml config
