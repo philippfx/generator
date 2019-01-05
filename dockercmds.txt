@@ -141,3 +141,5 @@ docker stack remove projNameDemo
 --- Addubg On-demand Testing Environments to the Pipeline ---
 
 docker-compose -f .\demo.yml config
+
+--- Deploying to production ---
